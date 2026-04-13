@@ -275,17 +275,47 @@ function ativarLinkPerigo() {
 }
 
 btnBaixarAviso.addEventListener('click', () => {
-    paginaExternaVoid.style.display = 'none'; document.body.classList.add('glitch-ativo');
-    if(audioAnomalia) audioAnomalia.pause(); if(audioFundo) audioFundo.play().catch(()=>{});
+    const conteudo = "Você não é a primeira pessoa a tentar acessar esse sistema, ele é meu domínio, VÁ EMBORA.";
+    
+    // 1. Tenta forçar o download (Funciona no PC e navegadores normais)
+    try {
+        const blob = new Blob([conteudo], { type: "text/plain;charset=utf-8" }); 
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a"); 
+        a.style.display = "none";
+        a.href = url; 
+        a.download = "AVISO.txt"; 
+        a.target = "_blank";
+        document.body.appendChild(a); 
+        a.click(); 
+        setTimeout(() => {
+            document.body.removeChild(a); 
+            URL.revokeObjectURL(url);
+        }, 150);
+    } catch(e) { console.log("Download ignorado pelo Mobile."); }
+
+    // 2. Oculta a tela vermelha do Void
+    paginaExternaVoid.style.display = 'none'; 
+    
+    // 3. FALLBACK INFALÍVEL: Dá um "Alert" do sistema (Perfeito para o Instagram!)
     setTimeout(() => {
-        document.body.classList.remove('glitch-ativo');
-        if (faseAtual === 3) {
-            faseAtual = 4; salvarProgresso();
-            enviarMensagem("Meus sistemas sofreram uma queda abrupta.", 'msg-horizon', 1000);
-            enviarMensagem("Você viu aquilo? A anomalia no sistema... O que você viu?", 'msg-horizon', 4000);
-            setTimeout(() => { desbloquearChat("Responda SIM, NÃO ou descreva..."); }, 5500);
-        }
-    }, 2000); 
+        alert("ARQUIVO: AVISO.txt\n\n\"" + conteudo + "\"");
+        
+        // 4. Aplica o Glitch e continua o jogo
+        document.body.classList.add('glitch-ativo');
+        if(audioAnomalia) audioAnomalia.pause(); 
+        if(audioFundo) audioFundo.play().catch(()=>{});
+        
+        setTimeout(() => {
+            document.body.classList.remove('glitch-ativo');
+            if (faseAtual === 3) {
+                faseAtual = 4; salvarProgresso();
+                enviarMensagem("Meus sistemas sofreram uma queda abrupta.", 'msg-horizon', 1000);
+                enviarMensagem("Você viu aquilo? A anomalia no sistema... O que você viu?", 'msg-horizon', 4000);
+                setTimeout(() => { desbloquearChat("Responda SIM, NÃO ou descreva..."); }, 5500);
+            }
+        }, 2000); 
+    }, 100);
 });
 
 btnNucleos.addEventListener('click', () => { 
