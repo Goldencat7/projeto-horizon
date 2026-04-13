@@ -31,7 +31,7 @@ body { background-color: #0a0a0a; color: #d4d4d4; height: 100vh; display: flex; 
 .botao-sistemas-ativo { border-color: #d2b48c !important; box-shadow: 0 0 15px rgba(210, 180, 140, 0.6); animation: pulsarSistemas 2s infinite; }
 .terminal-painel { flex: 1; border: 1px solid #333; border-radius: 5px; background: #050505; padding: 15px; display: flex; align-items: center; justify-content: center; text-align: center; line-height: 1.4; font-size: 0.8rem;}
 
-/* LABIRINTO */
+/* LABIRINTO (Base Desktop) */
 #grid-labirinto { display: grid; grid-template-columns: repeat(10, 25px); grid-template-rows: repeat(10, 25px); gap: 2px; background-color: #111; padding: 5px; border: 1px solid #333; }
 .celula { width: 25px; height: 25px; border-radius: 2px; }
 .parede { background-color: #222; }
@@ -42,7 +42,7 @@ body { background-color: #0a0a0a; color: #d4d4d4; height: 100vh; display: flex; 
 /* CONTROLES MOBILE (Ocultos no PC) */
 .mobile-only { display: none; margin-top: 20px; gap: 10px; }
 #controles-mobile-labirinto { display: none; grid-template-columns: repeat(3, 40px); grid-template-rows: repeat(2, 40px); gap: 5px; }
-#controles-mobile-labirinto button { background: #222; border: 1px solid #555; color: #fff; font-weight: bold; font-size: 1.2rem; border-radius: 5px; cursor: pointer; }
+#controles-mobile-labirinto button { background: #222; border: 1px solid #555; color: #fff; font-weight: bold; font-size: 1.2rem; border-radius: 5px;}
 
 /* LOGS */
 #menu-logs { display: flex; gap: 10px; margin-bottom: 10px; width: 90%; }
@@ -85,6 +85,7 @@ body { background-color: #0a0a0a; color: #d4d4d4; height: 100vh; display: flex; 
 .warning-text { font-size: 1.2rem; letter-spacing: 4px; color: #4a4a4a; margin-bottom: 15px; animation: blinker 2s linear infinite; }
 
 /* EFEITOS */
+@keyframes pulsarRoxo { 0% { box-shadow: 0 0 5px #6a0dad; } 50% { box-shadow: 0 0 20px #6a0dad; } 100% { box-shadow: 0 0 5px #6a0dad; } }
 @keyframes blinker { 50% { opacity: 0.5; } }
 @keyframes pulsarSistemas { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
 @keyframes aparecerIA { from { opacity: 0; transform: scale(0.2); } to { opacity: 1; transform: scale(1); } }
@@ -102,36 +103,33 @@ body { background-color: #0a0a0a; color: #d4d4d4; height: 100vh; display: flex; 
 ::-webkit-scrollbar-track { background: #0a0a0a; border-radius: 4px; }
 ::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
 
-/* --- RESPONSIVIDADE (CELULAR) - AJUSTE MINIGAMES --- */
+/* --- RESPONSIVIDADE (CELULAR) - LABIRINTO 100% FIXADO --- */
 @media (max-width: 768px) {
-    body { overflow-y: auto; display: block; height: auto;} 
-    #conteudo-principal { flex-direction: column; padding: 10px; display: block;}
+    body { overflow-y: auto; display: block; height: auto; } 
+    #conteudo-principal { flex-direction: column; padding: 10px; display: block; }
     #area-horizon { width: 100%; min-height: 450px; display: flex; margin-bottom: 20px; }
     #area-chat { width: 100%; min-height: 450px; display: flex; flex-direction: column; }
 
-    /* LABIRINTO À PROVA DE FALHAS NO CELULAR */
     #grid-labirinto { 
         display: grid !important;
-        grid-template-columns: repeat(10, 25px) !important; 
-        grid-template-rows: repeat(10, 25px) !important; 
+        grid-template-columns: repeat(10, 20px) !important; 
+        grid-template-rows: repeat(10, 20px) !important; 
         gap: 1px !important;
         justify-content: center;
-        margin: 0 auto;
         background-color: #333 !important; 
-        padding: 5px;
-        border-radius: 5px;
-    }
-    .celula { 
-        width: 25px !important; 
-        height: 25px !important; 
-        border: none !important; 
+        padding: 5px !important;
+        margin: 0 auto !important;
     }
     
-    /* Cores de alto contraste */
-    .parede { background-color: #666 !important; }
-    .caminho { background-color: #050505 !important; }
-    .jogador { background-color: #d2b48c !important; box-shadow: 0 0 5px #d2b48c !important;}
-    .chegada { background-color: #6a0dad !important; }
+    .celula { 
+        width: 20px !important; 
+        height: 20px !important; 
+        border: none !important; 
+    }
+    .parede { background-color: #666 !important; border: none !important; }
+    .caminho { background-color: #000 !important; border: none !important; }
+    .jogador { background-color: #d2b48c !important; box-shadow: 0 0 5px #d2b48c !important; border: none !important;}
+    .chegada { background-color: #6a0dad !important; border: none !important;}
 
     #area-pong { width: 280px; height: 180px; margin: 0 auto; }
     #timer { font-size: 2.5rem; }
