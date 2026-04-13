@@ -3,7 +3,7 @@ const telaLogin = document.getElementById('tela-login');
 const inputLogin = document.getElementById('input-login');
 const erroLogin = document.getElementById('erro-login');
 
-// Chaves permitidas (Decodificadas)
+// Chaves permitidas
 const chavesPermitidas = ["BETA-77", "DICE-20", "DSKD-ROOT", "ANOM-SYNC", "HORIZON-ADMIN"];
 
 if (localStorage.getItem('horizonSave')) {
@@ -56,26 +56,6 @@ const modalSistemas = document.getElementById('modal-sistemas-horizon');
 const overlayBinario = document.getElementById('overlay-binario');
 const modalPong = document.getElementById('modal-pong');
 const paginaExternaVoid = document.getElementById('pagina-externa-void');
-// CONTROLES DE TOQUE PARA O LABIRINTO
-const botoesSeta = {
-    'btn-up': [0, -1],
-    'btn-down': [0, 1],
-    'btn-left': [-1, 0],
-    'btn-right': [1, 0]
-};
-
-Object.keys(botoesSeta).forEach(id => {
-    const btn = document.getElementById(id);
-    if(btn) {
-        btn.addEventListener('touchstart', (e) => {
-            e.preventDefault(); // Impede o scroll da tela ao jogar
-            const [dx, dy] = botoesSeta[id];
-            moverLabirinto(dx, dy);
-        });
-        // Mantém o clique do mouse para testes no PC
-        btn.addEventListener('click', () => moverLabirinto(...botoesSeta[id]));
-    }
-});
 
 const iconeFinal = document.getElementById('icone-final');
 iconeFinal.addEventListener('mouseenter', () => { if(audioAnomalia) audioAnomalia.play().catch(()=>{}); });
@@ -286,7 +266,7 @@ document.getElementById('btn-fechar-nucleos').addEventListener('click', () => {
     }
 });
 
-// LABIRINTO (Com Touch)
+// LABIRINTO
 const mapaOriginal = [ [1,1,1,1,1,1,1,1,1,1], [1,2,0,1,0,0,0,1,0,1], [1,1,0,1,0,1,0,1,0,1], [1,0,0,0,0,1,0,0,0,1], [1,0,1,1,1,1,1,1,0,1], [1,0,0,0,0,0,0,1,0,1], [1,1,1,1,1,1,0,1,0,1], [1,0,0,0,1,0,0,0,0,1], [1,0,1,0,0,0,1,1,3,1], [1,1,1,1,1,1,1,1,1,1] ];
 let mapa = []; let pX = 1, pY = 1;
 function iniciarLabirinto() { jogoAtivo = true; modalLabirinto.style.display = 'flex'; pX = 1; pY = 1; mapa = JSON.parse(JSON.stringify(mapaOriginal)); desenharLabirinto(); }
@@ -301,16 +281,34 @@ function desenharLabirinto() {
     }
 }
 function moverLabirinto(dx, dy) {
-    if(mapa[pY+dy][pX+dx] !== 1) { pX+=dx; pY+=dy; desenharLabirinto(); if(mapa[pY][pX]===3) { jogoAtivo=false; modalLabirinto.style.display='none'; document.getElementById('palavra-dica').classList.add('revelado'); desbloquearChat("DIGITE A SENHA..."); } }
+    if(mapa[pY+dy][pX+dx] !== 1) { 
+        pX+=dx; pY+=dy; desenharLabirinto(); 
+        if(mapa[pY][pX]===3) { 
+            jogoAtivo=false; modalLabirinto.style.display='none'; 
+            document.getElementById('palavra-dica').classList.add('revelado'); 
+            desbloquearChat("DIGITE A SENHA..."); 
+        } 
+    }
 }
-document.addEventListener('keydown', (e) => { if (modalLabirinto.style.display === 'flex') { if(e.code==='ArrowUp') moverLabirinto(0,-1); if(e.code==='ArrowDown') moverLabirinto(0,1); if(e.code==='ArrowLeft') moverLabirinto(-1,0); if(e.code==='ArrowRight') moverLabirinto(1,0); } });
+
+// Controles Teclado (PC)
+document.addEventListener('keydown', (e) => { 
+    if (modalLabirinto.style.display === 'flex') { 
+        if(e.code==='ArrowUp') moverLabirinto(0,-1); 
+        if(e.code==='ArrowDown') moverLabirinto(0,1); 
+        if(e.code==='ArrowLeft') moverLabirinto(-1,0); 
+        if(e.code==='ArrowRight') moverLabirinto(1,0); 
+    } 
+});
+
+// Controles Touch (Mobile)
 document.getElementById('btn-up').addEventListener('touchstart', (e)=>{e.preventDefault();moverLabirinto(0,-1)});
 document.getElementById('btn-down').addEventListener('touchstart', (e)=>{e.preventDefault();moverLabirinto(0,1)});
 document.getElementById('btn-left').addEventListener('touchstart', (e)=>{e.preventDefault();moverLabirinto(-1,0)});
 document.getElementById('btn-right').addEventListener('touchstart', (e)=>{e.preventDefault();moverLabirinto(1,0)});
 
 
-// PONG (Com Touch)
+// PONG
 let pongInterval, bolaX, bolaY, dirX, dirY, p1Y, p2Y, pts1, pts2;
 const MAX_Y = window.innerWidth <= 768 ? 130 : 240; 
 const PADDLE_H = window.innerWidth <= 768 ? 30 : 60;
@@ -332,14 +330,23 @@ function loopPong() {
 function resetBola() { bolaX = LIMIT_X/2; bolaY = MAX_Y/2; dirX *= -1; }
 function atualizarPlacar() { document.getElementById('pontos-p1').innerText = pts1; document.getElementById('pontos-p2').innerText = pts2; }
 function desenharPong() { document.getElementById('bola-pong').style.left = bolaX + 'px'; document.getElementById('bola-pong').style.top = bolaY + 'px'; document.getElementById('paddle-p1').style.top = p1Y + 'px'; document.getElementById('paddle-p2').style.top = p2Y + 'px'; }
-document.addEventListener('keydown', (e) => { if (modalPong.style.display === 'flex') { if (e.code === 'ArrowUp' && p1Y > 0) p1Y -= 20; if (e.code === 'ArrowDown' && p1Y < MAX_Y) p1Y += 20; } });
+
+// Controles Pong PC
+document.addEventListener('keydown', (e) => { 
+    if (modalPong.style.display === 'flex') { 
+        if (e.code === 'ArrowUp' && p1Y > 0) p1Y -= 20; 
+        if (e.code === 'ArrowDown' && p1Y < MAX_Y) p1Y += 20; 
+    } 
+});
 document.getElementById('btn-fechar-pong').addEventListener('click', () => { modalPong.style.display = 'none'; clearInterval(pongInterval); });
 
+// Controles Pong Mobile
 let p1Inter = null;
 document.getElementById('btn-pong-up').addEventListener('touchstart', (e)=>{e.preventDefault(); p1Inter = setInterval(()=>{if(p1Y>0)p1Y-=5;},16)});
 document.getElementById('btn-pong-up').addEventListener('touchend', (e)=>{e.preventDefault(); clearInterval(p1Inter)});
 document.getElementById('btn-pong-down').addEventListener('touchstart', (e)=>{e.preventDefault(); p1Inter = setInterval(()=>{if(p1Y<MAX_Y)p1Y+=5;},16)});
 document.getElementById('btn-pong-down').addEventListener('touchend', (e)=>{e.preventDefault(); clearInterval(p1Inter)});
+
 
 // VOID TIMER
 let timerVoidInterval;

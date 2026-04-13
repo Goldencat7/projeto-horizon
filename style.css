@@ -42,7 +42,7 @@ body { background-color: #0a0a0a; color: #d4d4d4; height: 100vh; display: flex; 
 /* CONTROLES MOBILE (Ocultos no PC) */
 .mobile-only { display: none; margin-top: 20px; gap: 10px; }
 #controles-mobile-labirinto { display: none; grid-template-columns: repeat(3, 40px); grid-template-rows: repeat(2, 40px); gap: 5px; }
-#controles-mobile-labirinto button { background: #222; border: 1px solid #555; color: #fff; font-weight: bold; font-size: 1.2rem; border-radius: 5px;}
+#controles-mobile-labirinto button { background: #222; border: 1px solid #555; color: #fff; font-weight: bold; font-size: 1.2rem; border-radius: 5px; cursor: pointer; }
 
 /* LOGS */
 #menu-logs { display: flex; gap: 10px; margin-bottom: 10px; width: 90%; }
@@ -102,25 +102,26 @@ body { background-color: #0a0a0a; color: #d4d4d4; height: 100vh; display: flex; 
 ::-webkit-scrollbar-track { background: #0a0a0a; border-radius: 4px; }
 ::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
 
-/* --- RESPONSIVIDADE (CELULAR) - BUG CORRIGIDO --- */
 /* --- RESPONSIVIDADE (CELULAR) - AJUSTE MINIGAMES --- */
 @media (max-width: 768px) {
     body { overflow-y: auto; display: block; height: auto;} 
     #conteudo-principal { flex-direction: column; padding: 10px; display: block;}
-    #area-horizon { width: 100%; min-height: 450px; display: flex; margin-bottom: 20px; }
+    #area-horizon { width: 100%; min-height: 400px; display: flex; margin-bottom: 20px; }
     #area-chat { width: 100%; min-height: 450px; display: flex; flex-direction: column; }
 
     /* Ajuste da grade para não sumir no celular */
     #grid-labirinto { 
-        grid-template-columns: repeat(10, 28px); 
-        grid-template-rows: repeat(10, 28px); 
+        grid-template-columns: repeat(10, 22px); 
+        grid-template-rows: repeat(10, 22px); 
         gap: 1px;
     }
-    .celula { width: 28px; height: 28px; border: 1px solid #222; }
+    .celula { width: 22px; height: 22px; border: none; } /* Removi a borda sólida que borrava tudo */
 
     #area-pong { width: 280px; height: 180px; }
     #timer { font-size: 2.5rem; }
 
-    #controles-mobile-labirinto { display: grid !important; }
-    #controles-mobile-pong { display: flex !important; }
+    #controles-mobile-labirinto { display: grid !important; margin-top: 15px;}
+    #controles-mobile-labirinto button { padding: 10px; }
+    
+    #controles-mobile-pong { display: flex !important; margin-top: 15px; gap: 15px;}
 }
