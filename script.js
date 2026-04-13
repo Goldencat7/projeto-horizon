@@ -76,6 +76,7 @@ const terminalSistemas = document.getElementById('terminal-sistemas');
 const overlayBinario = document.getElementById('overlay-binario');
 const modalPong = document.getElementById('modal-pong');
 const btnFecharPong = document.getElementById('btn-fechar-pong');
+const btnStartPong = document.getElementById('btn-start-pong');
 
 const iconeFinal = document.getElementById('icone-final');
 
@@ -128,8 +129,8 @@ function carregarProgresso() {
             });
             chatMensagens.scrollTop = chatMensagens.scrollHeight;
             setTimeout(() => {
-                const btnPongSalvo = document.getElementById('btn-iniciar-pong');
-                if (btnPongSalvo) btnPongSalvo.addEventListener('click', () => { iniciarPong(); });
+                const bPong = document.getElementById('btn-iniciar-pong');
+                if (bPong) bPong.addEventListener('click', () => { iniciarPong(); });
             }, 500);
         }
 
@@ -274,34 +275,28 @@ function ativarLinkPerigo() {
     }
 }
 
+// ARQUIVO AVISO (Com Pop-Up obrigatório no celular)
 btnBaixarAviso.addEventListener('click', () => {
     const conteudo = "Você não é a primeira pessoa a tentar acessar esse sistema, ele é meu domínio, VÁ EMBORA.";
     
-    // 1. Tenta forçar o download (Funciona no PC e navegadores normais)
+    // Tenta forçar o download no PC
     try {
         const blob = new Blob([conteudo], { type: "text/plain;charset=utf-8" }); 
         const url = URL.createObjectURL(blob);
         const a = document.createElement("a"); 
-        a.style.display = "none";
-        a.href = url; 
-        a.download = "AVISO.txt"; 
-        a.target = "_blank";
-        document.body.appendChild(a); 
-        a.click(); 
-        setTimeout(() => {
-            document.body.removeChild(a); 
-            URL.revokeObjectURL(url);
-        }, 150);
-    } catch(e) { console.log("Download ignorado pelo Mobile."); }
+        a.style.display = "none"; a.href = url; a.download = "AVISO.txt"; a.target = "_blank";
+        document.body.appendChild(a); a.click(); 
+        setTimeout(() => { document.body.removeChild(a); URL.revokeObjectURL(url); }, 150);
+    } catch(e) {}
 
-    // 2. Oculta a tela vermelha do Void
     paginaExternaVoid.style.display = 'none'; 
     
-    // 3. FALLBACK INFALÍVEL: Dá um "Alert" do sistema (Perfeito para o Instagram!)
+    // Exibe Alert Nativo para Celular não perder a história
     setTimeout(() => {
-        alert("ARQUIVO: AVISO.txt\n\n\"" + conteudo + "\"");
+        if (window.innerWidth <= 768) {
+            alert("ARQUIVO: AVISO.txt\n\n\"" + conteudo + "\"");
+        }
         
-        // 4. Aplica o Glitch e continua o jogo
         document.body.classList.add('glitch-ativo');
         if(audioAnomalia) audioAnomalia.pause(); 
         if(audioFundo) audioFundo.play().catch(()=>{});
@@ -375,7 +370,6 @@ function moverLabirinto(dx, dy) {
     }
 }
 
-// Teclado PC
 document.addEventListener('keydown', (e) => {
     if (modalLabirinto.style.display === 'flex') {
         if(["ArrowUp","ArrowDown","ArrowLeft","ArrowRight"].indexOf(e.code) > -1) { e.preventDefault(); }
@@ -386,7 +380,6 @@ document.addEventListener('keydown', (e) => {
     }
 });
 
-// Toque Mobile
 document.getElementById('btn-up').addEventListener('touchstart', (e)=>{e.preventDefault();moverLabirinto(0,-1)});
 document.getElementById('btn-down').addEventListener('touchstart', (e)=>{e.preventDefault();moverLabirinto(0,1)});
 document.getElementById('btn-left').addEventListener('touchstart', (e)=>{e.preventDefault();moverLabirinto(-1,0)});
@@ -394,7 +387,7 @@ document.getElementById('btn-right').addEventListener('touchstart', (e)=>{e.prev
 
 
 // ==========================================
-// 7. PONG FINAL (Com suporte PC + Mobile)
+// 7. PONG FINAL (Com Iniciar e Scroll Mobile)
 // ==========================================
 let pongInterval, bolaX, bolaY, dirX, dirY, p1Y, p2Y, pts1, pts2;
 let limX = 500, limY = 300, padH = 60;
@@ -407,9 +400,22 @@ function configurarPong() {
 function iniciarPong() {
     configurarPong();
     modalPong.style.display = 'flex'; 
+    
+    // Rola para o topo automaticamente para a pessoa não perder o jogo no celular!
+    window.scrollTo({ top: 0, behavior: 'smooth' }); 
+    
     bolaX = limX / 2; bolaY = limY / 2; dirX = 3; dirY = 3; p1Y = (limY/2) - (padH/2); p2Y = (limY/2) - (padH/2); pts1 = 0; pts2 = 0; 
-    atualizarPlacar(); clearInterval(pongInterval); pongInterval = setInterval(loopPong, 16); 
+    atualizarPlacar(); desenharPong();
+    
+    // Mostra o botão de Iniciar e para o jogo
+    btnStartPong.style.display = 'inline-block';
+    clearInterval(pongInterval); 
 }
+
+btnStartPong.addEventListener('click', () => {
+    btnStartPong.style.display = 'none';
+    pongInterval = setInterval(loopPong, 16); 
+});
 
 function loopPong() {
     bolaX += dirX; bolaY += dirY; 
@@ -430,9 +436,8 @@ function resetBola() { bolaX = limX / 2; bolaY = limY / 2; dirX *= -1; }
 function atualizarPlacar() { document.getElementById('pontos-p1').innerText = pts1; document.getElementById('pontos-p2').innerText = pts2; }
 function desenharPong() { document.getElementById('bola-pong').style.left = bolaX + 'px'; document.getElementById('bola-pong').style.top = bolaY + 'px'; document.getElementById('paddle-p1').style.top = p1Y + 'px'; document.getElementById('paddle-p2').style.top = p2Y + 'px'; }
 
-// Teclado PC
 document.addEventListener('keydown', (e) => {
-    if (modalPong.style.display === 'flex') {
+    if (modalPong.style.display === 'flex' && btnStartPong.style.display === 'none') {
         if(["ArrowUp","ArrowDown"].includes(e.code)) e.preventDefault();
         if (e.code === 'ArrowUp' && p1Y > 0) p1Y -= 20;
         if (e.code === 'ArrowDown' && p1Y < (limY - padH)) p1Y += 20;
@@ -440,15 +445,24 @@ document.addEventListener('keydown', (e) => {
 });
 btnFecharPong.addEventListener('click', () => { modalPong.style.display = 'none'; clearInterval(pongInterval); });
 
-// Toque Mobile
 let p1Inter = null;
-document.getElementById('btn-pong-up').addEventListener('touchstart', (e)=>{e.preventDefault(); p1Inter = setInterval(()=>{if(p1Y>0)p1Y-=5;},16)});
+document.getElementById('btn-pong-up').addEventListener('touchstart', (e)=>{
+    e.preventDefault(); 
+    if (btnStartPong.style.display === 'none') {
+        p1Inter = setInterval(()=>{if(p1Y>0)p1Y-=5;},16)
+    }
+});
 document.getElementById('btn-pong-up').addEventListener('touchend', (e)=>{e.preventDefault(); clearInterval(p1Inter)});
-document.getElementById('btn-pong-down').addEventListener('touchstart', (e)=>{e.preventDefault(); p1Inter = setInterval(()=>{if(p1Y < (limY - padH))p1Y+=5;},16)});
+document.getElementById('btn-pong-down').addEventListener('touchstart', (e)=>{
+    e.preventDefault(); 
+    if (btnStartPong.style.display === 'none') {
+        p1Inter = setInterval(()=>{if(p1Y < (limY - padH))p1Y+=5;},16)
+    }
+});
 document.getElementById('btn-pong-down').addEventListener('touchend', (e)=>{e.preventDefault(); clearInterval(p1Inter)});
 
 // ==========================================
-// 8. VOID TIMER
+// 8. VOID TIMER (Atualizado para "EM BREVE")
 // ==========================================
 let timerVoidInterval;
 btnVoidTopo.addEventListener('click', () => {
@@ -458,15 +472,13 @@ btnVoidTopo.addEventListener('click', () => {
 btnFecharVoid.addEventListener('click', () => { modalVoidTimer.style.display = 'none'; });
 
 function iniciarTimerVoid() {
-    const DATA_FIM_VOID = new Date("2026-04-16T20:00:00-03:00").getTime(); 
     const timerElement = document.getElementById('timer');
     clearInterval(timerVoidInterval); 
-    timerVoidInterval = setInterval(() => {
-        const now = new Date().getTime(); const distance = DATA_FIM_VOID - now;
-        if (distance <= 0) { clearInterval(timerVoidInterval); timerElement.innerHTML = "00:00:00"; timerElement.style.color = "#550000"; return; }
-        const hours = Math.floor(distance / (1000 * 60 * 60)); const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)); const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-        timerElement.innerHTML = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-    }, 1000);
+    timerElement.innerHTML = "EM BREVE";
+    timerElement.style.color = "#550000";
+    if (window.innerWidth <= 768) {
+        timerElement.style.fontSize = "3rem";
+    }
 }
 
 // ==========================================
