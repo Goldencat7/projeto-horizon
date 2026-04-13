@@ -56,6 +56,26 @@ const modalSistemas = document.getElementById('modal-sistemas-horizon');
 const overlayBinario = document.getElementById('overlay-binario');
 const modalPong = document.getElementById('modal-pong');
 const paginaExternaVoid = document.getElementById('pagina-externa-void');
+// CONTROLES DE TOQUE PARA O LABIRINTO
+const botoesSeta = {
+    'btn-up': [0, -1],
+    'btn-down': [0, 1],
+    'btn-left': [-1, 0],
+    'btn-right': [1, 0]
+};
+
+Object.keys(botoesSeta).forEach(id => {
+    const btn = document.getElementById(id);
+    if(btn) {
+        btn.addEventListener('touchstart', (e) => {
+            e.preventDefault(); // Impede o scroll da tela ao jogar
+            const [dx, dy] = botoesSeta[id];
+            moverLabirinto(dx, dy);
+        });
+        // Mantém o clique do mouse para testes no PC
+        btn.addEventListener('click', () => moverLabirinto(...botoesSeta[id]));
+    }
+});
 
 const iconeFinal = document.getElementById('icone-final');
 iconeFinal.addEventListener('mouseenter', () => { if(audioAnomalia) audioAnomalia.play().catch(()=>{}); });

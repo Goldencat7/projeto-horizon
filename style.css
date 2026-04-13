@@ -103,27 +103,24 @@ body { background-color: #0a0a0a; color: #d4d4d4; height: 100vh; display: flex; 
 ::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
 
 /* --- RESPONSIVIDADE (CELULAR) - BUG CORRIGIDO --- */
+/* --- RESPONSIVIDADE (CELULAR) - AJUSTE MINIGAMES --- */
 @media (max-width: 768px) {
     body { overflow-y: auto; display: block; height: auto;} 
-    #conteudo-principal { flex-direction: column; overflow-y: visible; padding: 10px; display: block;}
-    
-    #area-horizon { width: 100%; min-height: 400px; display: flex; margin-bottom: 20px; }
-    
-    #area-chat { width: 100%; min-height: 450px; max-width: 100%; display: none; flex-direction: column; margin-bottom: 20px; }
-    
-    .container-sistemas { flex-direction: column; height: 80%; overflow-y: auto;}
-    
-    #grid-labirinto { grid-template-columns: repeat(10, 20px); grid-template-rows: repeat(10, 20px); }
-    .celula { width: 20px; height: 20px; }
-    
-    #area-pong { width: 280px; height: 160px; }
-    .paddle { height: 30px; }
-    #paddle-p1, #paddle-p2 { top: 65px; }
-    #bola-pong { left: 136px; top: 76px; }
+    #conteudo-principal { flex-direction: column; padding: 10px; display: block;}
+    #area-horizon { width: 100%; min-height: 450px; display: flex; margin-bottom: 20px; }
+    #area-chat { width: 100%; min-height: 450px; display: flex; flex-direction: column; }
 
+    /* Ajuste da grade para não sumir no celular */
+    #grid-labirinto { 
+        grid-template-columns: repeat(10, 28px); 
+        grid-template-rows: repeat(10, 28px); 
+        gap: 1px;
+    }
+    .celula { width: 28px; height: 28px; border: 1px solid #222; }
+
+    #area-pong { width: 280px; height: 180px; }
     #timer { font-size: 2.5rem; }
 
-    /* Mostra os controles de toque */
-    #controles-mobile-labirinto { display: grid; }
-    #controles-mobile-pong { display: flex; }
+    #controles-mobile-labirinto { display: grid !important; }
+    #controles-mobile-pong { display: flex !important; }
 }
