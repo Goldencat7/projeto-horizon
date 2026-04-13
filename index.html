@@ -23,7 +23,7 @@
     <audio id="audio-anomalia" src="som anomalia.mp3" loop></audio>
     <audio id="audio-acesso-negado" src="acesso negado.mp3"></audio>
 
-    <div id="overlay-binario" style="display: none; position: absolute; top: 15px; left: 0; width: 100%; text-align: center; color: #ff4444; font-weight: bold; font-size: 1.2rem; z-index: 100; text-shadow: 0 0 10px red; letter-spacing: 2px; background: rgba(0,0,0,0.8); padding: 10px; pointer-events: none;">
+    <div id="overlay-binario" style="display: none; position: absolute; top: 15px; left: 0; width: 100%; text-align: center; color: #ff4444; font-weight: bold; font-size: 1.5rem; z-index: 100; text-shadow: 0 0 10px red; letter-spacing: 5px; background: rgba(0,0,0,0.8); padding: 10px; pointer-events: none;">
         01000001 01100011 01101001 01100100 01100101 01101110 01110100 01100101
     </div>
 
@@ -54,20 +54,20 @@
                 </svg>
             </div>
 
-            <div id="modal-sistemas-horizon" class="modal-sobreposicao">
-                <h2 style="color: #d2b48c; letter-spacing: 2px; border-bottom: 1px solid #333; padding-bottom: 10px; width: 90%; text-align: left;">SISTEMAS HORIZON</h2>
-                <div class="container-sistemas">
-                    <div class="col-sistemas">
-                        <button class="btn-sistema-h" id="btn-sys-msg">Sistema de Mensagens</button>
-                        <button class="btn-sistema-h" id="btn-sys-int">Sistemas Internos</button>
-                        <button class="btn-sistema-h" id="btn-sys-ada">IA Adaptativa</button>
-                        <button class="btn-sistema-h glitch-hover" id="btn-sys-err" style="color: #666; font-size: 0.8rem;">kjiisojjfaeife</button>
+            <div id="modal-sistemas-horizon" class="modal-sobreposicao" style="background: rgba(10, 10, 10, 0.98); justify-content: flex-start; padding-top: 40px;">
+                <h2 style="color: #d2b48c; letter-spacing: 4px; border-bottom: 1px solid #333; padding-bottom: 10px; width: 80%; text-align: left; margin-bottom: 0;">SISTEMAS HORIZON</h2>
+                <div class="container-sistemas" style="display: flex; width: 80%; height: 60%; gap: 30px; margin-top: 30px;">
+                    <div class="col-sistemas" style="flex: 1; display: flex; flex-direction: column; gap: 15px;">
+                        <button class="btn-sistema-h" id="btn-sys-msg">Sistema de Mensagens (Configurar)</button>
+                        <button class="btn-sistema-h" id="btn-sys-int">Sistemas Internos (Acesso Negado)</button>
+                        <button class="btn-sistema-h" id="btn-sys-ada">Inteligência Adaptativa (Acesso Negado)</button>
+                        <button class="btn-sistema-h glitch-hover" id="btn-sys-err" style="color: #666; font-size: 0.8rem;">kjiisojjfaeifejiofejnkiej (iifonlnlk)</button>
                     </div>
-                    <div class="terminal-painel">
-                        <p id="terminal-sistemas" style="color: #888; font-style: italic;">Aguardando módulo...</p>
+                    <div class="terminal-painel" style="flex: 1; border: 1px solid #333; border-radius: 5px; background: #050505; padding: 20px; display: flex; align-items: center; justify-content: center; text-align: center; line-height: 1.6;">
+                        <p id="terminal-sistemas" style="color: #888; font-style: italic;">Aguardando seleção de módulo...</p>
                     </div>
                 </div>
-                <button id="btn-fechar-sistemas" style="margin-top: 20px; background: transparent; border: 1px solid #555; color: #888; padding: 10px 20px;">FECHAR PAINEL</button>
+                <button id="btn-fechar-sistemas" style="margin-top: 30px; background: transparent; border: 1px solid #555; color: #888; padding: 10px 20px; cursor: pointer;">FECHAR PAINEL</button>
             </div>
 
             <div id="modal-labirinto" class="modal-sobreposicao">
@@ -75,7 +75,7 @@
                 <div id="grid-labirinto"></div>
                 <div id="controles-mobile-labirinto" class="mobile-only">
                     <div></div><button id="btn-up">^</button><div></div>
-                    <button id="btn-left"><</button><button id="btn-down">v</button><button id="btn-right">></button>
+                    <button id="btn-left">&lt;</button><button id="btn-down">v</button><button id="btn-right">&gt;</button>
                 </div>
             </div>
 
@@ -101,7 +101,7 @@
             </div>
 
             <div id="modal-pong" class="modal-sobreposicao" style="background: #000;">
-                <h2 style="color: #d2b48c; font-size: 1rem;">FAÇA 5 PONTOS</h2>
+                <h2 style="color: #d2b48c;">SIMULAÇÃO DE DEFESA /// FAÇA 5 PONTOS</h2>
                 <div id="placar-pong">VOCÊ: <span id="pontos-p1">0</span> | AMEAÇA: <span id="pontos-p2">0</span></div>
                 <div id="area-pong">
                     <div id="paddle-p1" class="paddle"></div>
@@ -109,14 +109,14 @@
                     <div id="bola-pong"></div>
                 </div>
                 <div id="controles-mobile-pong" class="mobile-only">
-                    <button id="btn-pong-up" style="width: 100px; height: 50px;">CIMA</button>
-                    <button id="btn-pong-down" style="width: 100px; height: 50px;">BAIXO</button>
+                    <button id="btn-pong-up">CIMA</button>
+                    <button id="btn-pong-down">BAIXO</button>
                 </div>
                 <button id="btn-fechar-pong" style="margin-top: 20px; background: transparent; border: 1px solid #555; color: #888; padding: 10px 20px; cursor: pointer;">DESISTIR</button>
             </div>
 
             <div id="modal-void-timer" class="modal-sobreposicao" style="background: #050505;">
-                <p class="warning-text">SISTEMA EM HIBERNAÇÃO. TEMPO DE ESPERA:</p>
+                <p class="warning-text">CONEXÃO DIRETA ESTABELECIDA. TEMPO RESTANTE:</p>
                 <div id="timer">48:00:00</div>
                 <button id="btn-fechar-void" style="margin-top: 50px; background: transparent; border: 1px solid #555; color: #888; padding: 10px 20px; cursor: pointer;">OCULTAR CONTAGEM</button>
             </div>
@@ -128,13 +128,13 @@
             <div id="chat-mensagens"></div>
             <div id="chat-controles">
                 <input type="text" id="input-senha" placeholder="[SISTEMA BLOQUEADO]" disabled>
-                <button id="btn-enviar">></button>
+                <button id="btn-enviar">&gt;</button>
             </div>
         </aside>
 
         <div id="pagina-externa-void" class="modal-sobreposicao" style="background-color: #050505; z-index: 9999;">
             <div id="icone-void-vermelho">
-                <svg width="150" height="150" viewBox="0 0 24 24">
+                <svg width="200" height="200" viewBox="0 0 24 24">
                     <circle cx="12" cy="12" r="10" fill="#0a0000" />
                     <circle cx="12" cy="12" r="3" fill="#ff0000" />
                 </svg>
