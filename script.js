@@ -1,3 +1,31 @@
+
+// SISTEMA DE LOGIN INICIAL
+const telaLogin = document.getElementById('tela-login');
+const inputLogin = document.getElementById('input-login');
+const erroLogin = document.getElementById('erro-login');
+
+// Chaves permitidas (Decodificadas)
+const chavesPermitidas = ["BETA-77", "DICE-20", "DSKD-ROOT", "ANOM-SYNC"];
+
+// Se já houver progresso, pula o login
+if (localStorage.getItem('horizonSave')) {
+    telaLogin.style.display = 'none';
+}
+
+inputLogin.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+        const valor = inputLogin.value.trim().toUpperCase();
+        if (chavesPermitidas.includes(valor)) {
+            telaLogin.style.display = 'none';
+            // Inicia o áudio de fundo ao logar
+            if(audioFundo) audioFundo.play().catch(()=>{});
+        } else {
+            tocarSomErro();
+            erroLogin.style.display = 'block';
+            inputLogin.value = '';
+        }
+    }
+});
 // REFERÊNCIAS GERAIS E ÁUDIO
 const audioFundo = document.getElementById('audio-fundo');
 const audioDigitacao = document.getElementById('audio-digitacao');
