@@ -103,7 +103,6 @@ body { background-color: #0a0a0a; color: #d4d4d4; height: 100vh; display: flex; 
 ::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
 
 /* --- RESPONSIVIDADE (CELULAR) - AJUSTE MINIGAMES --- */
-/* --- RESPONSIVIDADE (CELULAR) - LABIRINTO CORRIGIDO --- */
 @media (max-width: 768px) {
     body { overflow-y: auto; display: block; height: auto;} 
     #conteudo-principal { flex-direction: column; padding: 10px; display: block;}
@@ -118,7 +117,7 @@ body { background-color: #0a0a0a; color: #d4d4d4; height: 100vh; display: flex; 
         gap: 1px !important;
         justify-content: center;
         margin: 0 auto;
-        background-color: #222 !important;
+        background-color: #333 !important; 
         padding: 5px;
         border-radius: 5px;
     }
@@ -127,17 +126,18 @@ body { background-color: #0a0a0a; color: #d4d4d4; height: 100vh; display: flex; 
         height: 25px !important; 
         border: none !important; 
     }
-    /* Cores de alto contraste para não sumir no mobile */
-    .parede { background-color: #555 !important; }
+    
+    /* Cores de alto contraste */
+    .parede { background-color: #666 !important; }
     .caminho { background-color: #050505 !important; }
-    .jogador { background-color: #d2b48c !important; box-shadow: 0 0 5px #d2b48c; }
+    .jogador { background-color: #d2b48c !important; box-shadow: 0 0 5px #d2b48c !important;}
     .chegada { background-color: #6a0dad !important; }
 
     #area-pong { width: 280px; height: 180px; margin: 0 auto; }
     #timer { font-size: 2.5rem; }
 
     #controles-mobile-labirinto { display: grid !important; margin-top: 20px; justify-content: center;}
-    #controles-mobile-labirinto button { padding: 15px; font-size: 1.5rem; background: #333; }
+    #controles-mobile-labirinto button { padding: 15px; font-size: 1.5rem; background: #222; border: 1px solid #555; color: white;}
     
     #controles-mobile-pong { display: flex !important; margin-top: 15px; gap: 15px; justify-content: center;}
 }
